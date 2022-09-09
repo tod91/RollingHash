@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fileio"
+	"fmt"
+)
 
 func main() {
-	fmt.Println("test")
+	file, err := fileio.Open("test.txt")
+	if err != nil {
+		fmt.Errorf("ERROR: ", err)
+	}
+	//fmt.Printf()
 }
