@@ -11,16 +11,23 @@ func Split(buf []byte) ([]string, error) {
 
 	var ret []string
 
-	for idx := 0; idx*bSize < fSize; idx++ {
+	// iterate until our block size exceeds the file length
+	idx := 0
+	for ; (idx+1)*bSize < fSize; idx++ {
 		ret = append(ret, calcMD5(buf, idx*bSize, (idx+1)*bSize))
 	}
+
+	// grab what's left from the file and fill the rest of the block with zeroes
+	from := idx * bSize
+	to := fSize - from
+	ret = append(ret, calcMD5(buf, from, from+to))
+
 	return ret, nil
 }
 
 func calcMD5(buf []byte, from, to int) string {
 	h := md5.Sum(buf[from:to])
-	hb := []byte(h[:])
-	asStr := string(hb)
+	asStr := string(h[:])
 	hexStr := fmt.Sprintf("%x", asStr)
 
 	return hexStr
