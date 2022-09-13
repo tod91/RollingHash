@@ -2,18 +2,18 @@ package main
 
 import (
 	"RollingHash/fileio"
-	"crypto/md5"
+	"RollingHash/hash"
 	"fmt"
 )
 
 func main() {
-	const blockSize = 8
 
-	_, err := fileio.Open("test/text.txt", blockSize)
+	r, err := fileio.Open("test/text.txt")
 	if err != nil {
 		fmt.Errorf("ERROR: ", err)
 	}
 
+	hash.Split(r)
 }
 
 // ako chunka mi e po baluk ot 64 togava direkto savveni kontenta
