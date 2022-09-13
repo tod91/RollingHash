@@ -25,6 +25,10 @@ func Split(buf []byte) ([]string, error) {
 	return ret, nil
 }
 
+func CalcRKHash() {
+
+}
+
 func calcMD5(buf []byte, from, to int) string {
 	h := md5.Sum(buf[from:to])
 	asStr := string(h[:])
