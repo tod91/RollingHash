@@ -1,6 +1,12 @@
 package helper
 
-type delta struct {
+const (
+	Add int = iota
+	Remove
+	Change
+)
+
+type Delta struct {
 	changes []string
 }
 

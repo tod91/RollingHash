@@ -4,6 +4,7 @@ import (
 	"RollingHash/fileio"
 	"RollingHash/hash"
 	"fmt"
+	"strings"
 )
 
 func main() {
@@ -21,9 +22,13 @@ func main() {
 	}
 	nBlocks, err := hash.Split(nFileContent)
 
+	patternAsString := strings.Join(oBlocks, "")
+	pattern := hash.RabinKarp(patternAsString)
+
+	patternAsString := strings.Join(nFileContent[:], "")
+	window := hash.RabinKarp(patternAsString)
 	for i := 0; i < len(nBlocks); i++ {
-		hash.RabinKarp(oBlocks[i])
-		hash.RabinKarp(nBlocks[i])
+
 	}
 
 }

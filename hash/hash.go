@@ -3,6 +3,7 @@ package hash
 import (
 	"crypto/md5"
 	"fmt"
+	"strings"
 )
 
 func Split(buf []byte) ([]string, error) {
@@ -26,12 +27,19 @@ func Split(buf []byte) ([]string, error) {
 	return ret, nil
 }
 
-func RabinKarp(block string) int {
-	var ret int
+func SlideWindow(curHash uint64, prevc, nextc rune) uint64 {
+	curHash -= uint64(prevc)
+	curHash += uint64(nextc)
+
+	return curHash
+}
+
+func RabinKarp(block string) uint64 {
+	var ret uint64
 	b := []rune(block)
 
 	for _, c := range b {
-		ret += int(c)
+		ret += uint64(c)
 	}
 
 	return ret
@@ -46,7 +54,9 @@ func calcMD5(buf []byte, from, to int) string {
 }
 
 func getBlockSize(size int) int {
-	if size > 1024 {
+	if size == 0 {
+		fmt.Errorf("cannot get block size of an empty file")
+	} else if size > 1024 {
 		return 1024
 	} else {
 		return 512
