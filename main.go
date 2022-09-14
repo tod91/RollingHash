@@ -7,13 +7,25 @@ import (
 )
 
 func main() {
-
-	r, err := fileio.Open("test/text.txt")
+	oFile := "test_files/old.txt"
+	oldFileContent, err := fileio.Open(oFile)
 	if err != nil {
 		fmt.Errorf("ERROR: ", err)
 	}
+	oBlocks, err := hash.Split(oldFileContent)
 
-	hash.Split(r)
+	nFile := "test_files/new.txt"
+	nFileContent, err := fileio.Open(nFile)
+	if err != nil {
+		fmt.Errorf("ERROR", err)
+	}
+	nBlocks, err := hash.Split(nFileContent)
+
+	for i := 0; i < len(nBlocks); i++ {
+		hash.RabinKarp(nBlocks[i])
+		hash.RabinKarp(oBlocks[i])
+	}
+
 }
 
 // ako chunka mi e po baluk ot 64 togava direkto savveni kontenta

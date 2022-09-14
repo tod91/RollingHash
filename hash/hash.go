@@ -6,6 +6,7 @@ import (
 )
 
 func Split(buf []byte) ([]string, error) {
+	// Get file and block size
 	fSize := len(buf)
 	bSize := getBlockSize(fSize)
 
@@ -25,8 +26,15 @@ func Split(buf []byte) ([]string, error) {
 	return ret, nil
 }
 
-func CalcRKHash() {
+func RabinKarp(block string) int {
+	var ret int
+	b := []rune(block)
 
+	for _, c := range b {
+		ret += int(c)
+	}
+
+	return ret
 }
 
 func calcMD5(buf []byte, from, to int) string {
