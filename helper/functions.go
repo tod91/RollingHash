@@ -5,5 +5,5 @@ func SanityCheck(first, second string) bool {
 }
 
 func (d *Delta) Add(cmd string) {
-	d.changes = append(d.changes, cmd)
+	d.Changes = append(d.Changes, cmd)
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"RollingHash/fileio"
 	"RollingHash/hash"
+	"RollingHash/helper"
 	"fmt"
 	"strings"
 )
@@ -13,24 +14,39 @@ func main() {
 	if err != nil {
 		fmt.Errorf("ERROR: ", err)
 	}
-	oBlocks, err := hash.Split(oldFileContent)
+	oBlocks, err := hash.Split(oldFileContent)     // string slice ot heshirani blokove
+	patternAsString := strings.Join(oBlocks, "")   // pravi ti go na 1 golqm string
+	patternHash := hash.RabinKarp(patternAsString) //izkarva ti hesha na tozi string
 
 	nFile := "test_files/new.txt"
 	nFileContent, err := fileio.Open(nFile)
 	if err != nil {
 		fmt.Errorf("ERROR", err)
 	}
-	nBlocks, err := hash.Split(nFileContent)
+	nBlocks, err := hash.Split(nFileContent)                   // string slice ot heshirani blokove
+	windowAsString := strings.Join(nBlocks[:len(oBlocks)], "") // prozoreca ti go pravi na string
+	windowHash := hash.RabinKarp(windowAsString)               // izkarvati hesha na prozoreca
 
-	patternAsString := strings.Join(oBlocks, "")
-	pattern := hash.RabinKarp(patternAsString)
-
-	patternAsString := strings.Join(nFileContent[:], "")
-	window := hash.RabinKarp(patternAsString)
+	delta := helper.NewDelta()
 	for i := 0; i < len(nBlocks); i++ {
+		if patternHash == windowHash {
+			windowAsString = strings.Join(nBlocks[i:len(oBlocks)], "")
+			if helper.SanityCheck(patternAsString, windowAsString) {
+				//delta.Add()
+			}
+		}
+
+		//windowHash = hash.SlideWindow(windowHash)
+
+		//strings.Join(nBlocks[:len(patternAsString)]
 
 	}
 
+	if len(delta.Changes) == 0 {
+		fmt.Println("Files are identical")
+	} else {
+		fmt.Println(delta.Changes)
+	}
 }
 
 // ako chunka mi e po baluk ot 64 togava direkto savveni kontenta

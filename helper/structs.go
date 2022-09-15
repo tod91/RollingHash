@@ -7,7 +7,13 @@ const (
 )
 
 type Delta struct {
-	changes []string
+	Changes []string
+}
+
+func NewDelta() Delta {
+	return Delta{
+		Changes: []string{},
+	}
 }
 
 type file struct {

@@ -3,7 +3,7 @@ package hash
 import (
 	"crypto/md5"
 	"fmt"
-	"strings"
+	///"strings"
 )
 
 func Split(buf []byte) ([]string, error) {
@@ -61,4 +61,5 @@ func getBlockSize(size int) int {
 	} else {
 		return 512
 	}
+	return 512
 }
