@@ -16,6 +16,10 @@ func NewDelta() Delta {
 	}
 }
 
+func (d *Delta) Add(cmd string) {
+	d.Changes = append(d.Changes, cmd)
+}
+
 type file struct {
 	size    int
 	content []byte

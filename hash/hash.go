@@ -3,7 +3,10 @@ package hash
 import (
 	"crypto/md5"
 	"fmt"
-	///"strings"
+)
+
+const (
+	upperLimit = 1024
 )
 
 func Split(buf []byte) ([]string, error) {
@@ -54,12 +57,16 @@ func calcMD5(buf []byte, from, to int) string {
 }
 
 func getBlockSize(size int) int {
-	if size == 0 {
-		fmt.Errorf("cannot get block size of an empty file")
-	} else if size > 1024 {
-		return 1024
+	if size > upperLimit {
+		return upperLimit
 	} else {
-		return 512
+		size /= 2
+
+		// round up to the next power of 2
+		k := 1
+		for k < size {
+			k = k << 1
+		}
+		return k
 	}
-	return 512
 }

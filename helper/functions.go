@@ -6,10 +6,6 @@ func SanityCheck(first, second string) bool {
 	return first == second
 }
 
-func (d *Delta) Add(cmd string) {
-	d.Changes = append(d.Changes, cmd)
-}
-
 func LevenshteinDistance(a, b string) int {
 	small, big := a, b
 	if len(a) > len(b) {
